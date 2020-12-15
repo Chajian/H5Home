@@ -10,6 +10,7 @@
 </head>
 <body id="body">
 <div>
+    <audio style="width: 100%;" controls="controls" autoplay="autoplay" id="#backmusic" src="./music/backgroud.mp3" autoplay></audio>
     <!-- 标题栏 -->
     <div>
         <ul class="topNavigationUl">
@@ -17,7 +18,7 @@
                 <a href="../H5Home/index.html">首页</a>
             </li>
             <li>
-                <a>详细介绍</a>                
+                <a>旅行过程</a>                
             </li>
             <li>
                 <a>图片欣赏</a>
@@ -26,39 +27,144 @@
     </div>
 
     <div class="content">
+        <!-- 介绍 -->
         <div class="carousel">
-
-            <img src="img/1.jpg" width="500px" height="200px">
-            </img>
-
-            <div id="carouselButtons">
-                <span index="1" class="on"></span>
-                <span index="2"></span>
-                <span index="3"></span>
-                <span index="4"></span>
+            <div>
+                <p>
+                    梧桐山风景名胜区位于东经113°17'～114°18'，
+                </p>
+                <p>
+                    北纬22°23'～22°43'的沿海地区，
+                </p>
+                <p>
+                    在广东省深圳经济特区东部，西临深圳水库，
+                </p>
+                <p>
+                    东至盐田港，南北均临近特区边界。
+                </p>
             </div>
+            <img id='carouselImg' src="img/1.jpg" width="500px" height="200px">
+            </img>
+            <div>
+                <p>
+                    面积为31.82平方公里，于1989年被林业部批准建立国家级森林公园（梧桐山国家森林公园），
+                </p>
+                <p>
+                    于1993年5月被广东省人民政府授予省级风景名胜区。
+                </p>
+                <p>
+                    于2009年12月31日被国务院公布为国家级风景名胜区。
+                </p>
+            </div>
+        </div>
+
+        <div class="team">
+            <li>
+                <ul>
+                    <img src="./img/sheep.png">
+                    </img>
+                    <p>我本人<sup>谢🐏林</sup></p>
+                </ul>
+
+                <ul>
+                    <img src="./img/pig.png">
+                    </img>
+                    <p>志逸</p>
+                </ul>
+            </li>
+
+            <li>
+                <ul>
+                    <img src="./img/cow.png">
+                    </img>
+                    <p>带哥</p>
+                </ul>
+
+                <ul>
+                    <img src="./img/monster.png">
+                    </img>
+                    <p>廖导</p>
+                </ul>
+
+                <ul>
+                    <img src="./img/panda.png">
+                    </img>
+                    <p>文轩弟弟</p>
+                </ul>
+            </li>
         </div>
     </div>
 </div>
 <script>
-    var mouse = new MouseEvent(
-        "click",
-        {
-            bubbles: true,
-            cancelable: true,
-            view: window,
+    
+    /**字体跳动
+    */
+
+    //获取所有<p>标签
+    var partOne = document.getElementsByClassName('team')[0].children[0].children
+    var partTwo = document.getElementsByClassName('team')[0].children[1].children
+    var allP = []
+    for(var i = 0 ; i < 2 ; i++){
+        allP.push(partOne[i])
+    }
+    for(var i = 0 ; i < 3 ; i++){
+        allP.push(partTwo[i])
+    }
+
+    //animation对象
+    var AnimatText = function(){
+        this.y = 0;
+        //0不动1上升2下降
+        this.isMove = false;
+        this.tract = 0;
+        this.direction = 1;
+        this.boundary = 20;
+    }
+    AnimatText.prototype = {
+
+        update:function(p){
+            this.tract = this.direction * (parseInt(5*Math.random())+1)
+            if(this.isMove){
+                if(this.y>this.boundary){
+                    this.direction =-1;
+                    this.y = this.boundary;
+                    console.log(this.y+'up'+this.boundary)
+                }
+                if(this.y < (-1*this.boundary)){
+                    this.direction = 1;
+                    console.log('down')
+                }
+
+                
+
+                p.setAttribute('style','transform: translate(0px, '+this.y+'px)')
+                this.y+=this.tract
+            }
         }
-    );
+    }
 
-    // 添加鼠标点a击事件
-    var carousel = document.getElementById('carouselButtons');
-    carousel.addEventListener("click",function(event){
-        // for(var i = 0 ; i < carousel.childElementCount ; i++){
-        //     carousel.children.
+    //初始化p标签
+    var animats = []
+    for(var i = 0 ; i < 5 ; i++){
+        var animat = new AnimatText()
+        animat.isMove = true
+        animats.push(animat)
+    }
+
+    this.setInterval(function(){
+        // for(var i = 0 ; i < 2 ; i++){
+        //     animats[i].update(partOne[i].children[1])
         // }
-
-    },false);
-
+        // for(var i = 0 ; i < 3 ; i++){
+        //     animats[i+2].update(partTwo[i].children[1])
+        // }
+        for(var i = 0 ; i < 5 ; i++){
+            animats[i].update(allP[i].children[1])
+        }
+        // document.getElementsByClassName('team')[0].children[0].children[0].children[1].setAttribute('style','transform: translate(10px, 110px);')
+        // 'transform','translate(0px, 10px)'
+        // }
+    },1000/30)
 
 </script>
 </body>

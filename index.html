@@ -116,27 +116,27 @@
         this.y = 0;
         //0不动1上升2下降
         this.isMove = false;
-        this.tract = 0;
+        this.tract = 5;
         this.direction = 1;
         this.boundary = 20;
     }
     AnimatText.prototype = {
 
         update:function(p){
-            this.tract = this.direction * (parseInt(5*Math.random())+1)
+            // this.tract = this.direction * (parseInt(5*Math.random())+1)
+            this.tract = parseInt(this.direction * (3))
             if(this.isMove){
                 if(this.y>this.boundary){
-                    this.direction =-1;
+                    this.direction = -1 * Math.abs(this.direction)
                     this.y = this.boundary;
                     console.log(this.y+'up'+this.boundary)
                 }
                 if(this.y < (-1*this.boundary)){
-                    this.direction = 1;
+                    this.direction = Math.abs(this.direction)
+                    this.y = -1*this.boundary;
                     console.log('down')
                 }
-
-
-
+                console.log(this.tract)
                 p.setAttribute('style','transform: translate(0px, '+this.y+'px)')
                 this.y+=this.tract
             }
@@ -165,7 +165,7 @@
         // document.getElementsByClassName('team')[0].children[0].children[0].children[1].setAttribute('style','transform: translate(10px, 110px);')
         // 'transform','translate(0px, 10px)'
         // }
-    },1000/30)
+    },1000)
 
 </script>
 </body>
